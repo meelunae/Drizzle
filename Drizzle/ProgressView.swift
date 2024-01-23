@@ -10,7 +10,7 @@ import SwiftUI
 struct CircularProgressView: View {
     @Binding var progress: Float
     @Binding var color: Color
-    
+
     var body: some View {
         ZStack {
             Circle()

@@ -14,13 +14,13 @@ struct DrizzleApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView(model: viewModel)
-            .frame(maxWidth: 750, maxHeight: 500)
+                .frame(minWidth: 500, maxWidth: 750, minHeight: 333, maxHeight: 500)
             .onAppear {
                 requestNotificationPermissions()
             }
         }
         MenuBarExtra(content: {
-            
+
         }, label: {
             if viewModel.pomodoroState == .stopped {
                 Text("No timer running")

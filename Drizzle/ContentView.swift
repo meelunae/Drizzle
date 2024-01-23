@@ -43,15 +43,14 @@ struct ContentView: View {
             }
         }
     }
-    
-    
+
     var progressView: some View {
         VStack {
-            ZStack() {
+            ZStack {
                 withAnimation {
                     CircularProgressView(progress: $model.progress, color: $model.timerViewColor)
                 }
-                
+
                 Text(model.timeRemaining.parsedTimestamp)
                     .font(.largeTitle)
                     .monospaced()
@@ -61,7 +60,7 @@ struct ContentView: View {
             }, label: {Text("Stop timer")})
         }
     }
-    
+
     var idleView: some View {
         VStack {
             Text("Welcome back, \(userName)!")

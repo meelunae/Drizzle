@@ -20,10 +20,9 @@ struct OnboardingView: View {
         } else {
             OnboardingFormView()
         }
-        
+
     }
 }
-
 
 struct OnboardingLogoView: View {
     @State private var showText = true
@@ -41,7 +40,6 @@ struct OnboardingLogoView: View {
                         .font(.title)
                         .transition(.opacity)
                         .monospaced()
-    
                 }
             }
             .onAppear {
@@ -57,7 +55,7 @@ struct OnboardingLogoView: View {
 }
 
 struct OnboardingFormView: View {
-    
+
     @AppStorage("showUserOnboarding") var showOnboarding: Bool = true
     @AppStorage("userName") private var name: String = ""
     @State private var isNameValid: Bool = false
@@ -70,7 +68,7 @@ struct OnboardingFormView: View {
                     .font(.title)
                     .fontWeight(.semibold)
                     .monospaced()
-                
+
                 HStack {
                     Spacer()
                     TextField(
@@ -86,9 +84,13 @@ struct OnboardingFormView: View {
                     .disableAutocorrection(true)
                     .textFieldStyle(.plain)
                     .padding(.vertical, 10)
-                    .overlay(RoundedRectangle(cornerSize: CGSize(width: 1, height: 1)).frame(height: 1).padding(.top, 35))
+                    .overlay(
+                        RoundedRectangle(
+                            cornerSize: CGSize(width: 1, height: 1))
+                            .frame(height: 1).padding(.top, 35)
+                    )
                     .padding(10)
-                    
+
                     if isNameValid {
                         Button(action: {
                             showOnboarding = false
@@ -107,22 +109,20 @@ struct OnboardingFormView: View {
             HStack { Spacer() }
         }
     }
-    
+
     // Asynchronous validation to avoid thread unresponsiveness
     func validateInputAsync(_ input: String) {
           DispatchQueue.global().async {
               let isValid = validateInput(input)
-
               DispatchQueue.main.async {
                   self.isNameValid = isValid
               }
           }
       }
-    
+
     func validateInput(_ input: String) -> Bool {
            let letterCharacterSet = CharacterSet.letters
            let inputCharacterSet = CharacterSet(charactersIn: input)
-
            return input.count >= 3 && inputCharacterSet.isSubset(of: letterCharacterSet)
        }
 }
