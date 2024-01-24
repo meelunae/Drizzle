@@ -21,7 +21,7 @@ struct DrizzleApp: App {
         }
         MenuBarExtra(content: {
             MenuBarView(model: viewModel)
-                .frame(minWidth: 300, maxWidth: 300, minHeight: 275, maxHeight: 275)
+                .frame(minWidth: 350, maxWidth: 350)
         }, label: {
             switch viewModel.pomodoroState {
             case .stopped:

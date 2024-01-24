@@ -15,7 +15,8 @@ struct ContentView: View {
         if showOnboarding {
             OnboardingView()
         } else {
-            if model.pomodoroState == .studySessionActive {
+            switch model.pomodoroState {
+            case .studySessionActive:
                 VStack {
                     Text("You can do it, \(userName)!")
                         .monospaced()
@@ -24,7 +25,7 @@ struct ContentView: View {
                     progressView
                         .frame(width: 250, height: 250)
                 }
-            } else if model.pomodoroState == .restSessionActive {
+            case .restSessionActive:
                 VStack {
                     Text("\(userName), get some well deserved rest!")
                         .monospaced()
@@ -33,7 +34,7 @@ struct ContentView: View {
                     progressView
                         .frame(width: 250, height: 250)
                 }
-            } else {
+            default:
                 idleView
                 Button(action: {
                     if let bundleID = Bundle.main.bundleIdentifier {

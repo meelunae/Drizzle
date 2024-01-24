@@ -103,15 +103,12 @@
 		6222CF6D2B5ED73C00457039 /* Drizzle */ = {
 			isa = PBXGroup;
 			children = (
+				62574C2C2B61B61400DC4585 /* ViewModels */,
+				62574C2B2B61B5FC00DC4585 /* Views */,
 				6222CF6E2B5ED73C00457039 /* DrizzleApp.swift */,
-				6222CF702B5ED73C00457039 /* ContentView.swift */,
 				6222CF722B5ED73D00457039 /* Assets.xcassets */,
 				6222CF772B5ED73D00457039 /* Drizzle.entitlements */,
 				6222CF742B5ED73D00457039 /* Preview Content */,
-				6222CF992B5ED91200457039 /* PomodoroViewModel.swift */,
-				6222CF9B2B5EE77F00457039 /* ProgressView.swift */,
-				6222CF9D2B5F333400457039 /* OnboardingView.swift */,
-				62CFE2E62B5FEE5A00EF1B81 /* MenuBarView.swift */,
 			);
 			path = Drizzle;
 			sourceTree = "<group>";
@@ -139,6 +136,25 @@
 				6222CF8C2B5ED73D00457039 /* DrizzleUITestsLaunchTests.swift */,
 			);
 			path = DrizzleUITests;
+			sourceTree = "<group>";
+		};
+		62574C2B2B61B5FC00DC4585 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				6222CF702B5ED73C00457039 /* ContentView.swift */,
+				6222CF9B2B5EE77F00457039 /* ProgressView.swift */,
+				6222CF9D2B5F333400457039 /* OnboardingView.swift */,
+				62CFE2E62B5FEE5A00EF1B81 /* MenuBarView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		62574C2C2B61B61400DC4585 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				6222CF992B5ED91200457039 /* PomodoroViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

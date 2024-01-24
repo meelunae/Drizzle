@@ -17,7 +17,6 @@ struct CircularProgressView: View {
                 .stroke(lineWidth: 8.0)
                 .opacity(0.3)
                 .foregroundColor(.gray)
-
             Circle()
                 .trim(from: 0.0, to: CGFloat(min(progress, 1.0)))
                 .stroke(style: StrokeStyle(lineWidth: 8.0,
@@ -32,35 +31,48 @@ struct CircularProgressView: View {
 struct GaugeProgressView: View {
     @State var title: String
     @ObservedObject var model: PomodoroViewModel
+    @State var buttonHovered: Bool = false
     var body: some View {
         VStack {
             Text(title)
-                .font(.headline)
                 .monospaced()
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .padding([.top, .leading, .trailing], 8)
-            HStack {
+                .padding([.top, .bottom], 8)
+                .padding([.leading, .trailing], 16)
+            HStack(spacing: 10) {
+                Spacer()
                 GeometryReader { geometry in
                     ZStack(alignment: .leading) {
                         Rectangle()
-                            .frame(width: geometry.size.width)
-                            .foregroundColor(.gray)
+                            .fill(.secondary)
                             .opacity(0.3)
+                            .frame(width: geometry.size.width - 20, height: 8)
                         Rectangle()
-                            .foregroundColor(model.timerViewColor)
-                            .frame(width: min((CGFloat(model.progress) * geometry.size.width),
-                                              geometry.size.width))
+                            .fill(model.timerViewColor)
+                            .frame(width: (geometry.size.width - 20) * CGFloat(model.progress), height: 8)
                     }
                     .clipShape(Capsule())
-                    .frame(minWidth: min((CGFloat(model.progress) * geometry.size.width),
-                           geometry.size.width - 40), maxWidth: .infinity, maxHeight: 10)
-                    .padding([.leading, .top, .bottom], 16)
                 }
-                .animation(.linear(duration: 1.0), value: model.progress)
+                .animation(.linear(duration: 1), value: model.progress)
                 Text("\(model.timeRemaining.parsedTimestamp)")
-                    .frame(width: 40, height: 10, alignment: .leading)
-                    .padding([.leading, .trailing, .top, .bottom], 8)
+                    .font(.system(size: 12))
+                    .monospaced()
+                    .padding([.trailing], 8)
+                Button(action: {
+                    model.pomodoroState = .stopped
+                }, label: {
+                    Text("\(Image(systemName: "stop.circle"))")
+                        .font(.system(size: 12))
+                        .foregroundStyle(Color(buttonHovered ? model.timerViewColor : .primary))
+                         .onHover(perform: { _ in
+                             buttonHovered.toggle()
+                         })
+                })
+                .buttonStyle(.plain)
+                .padding([.trailing], 16)
             }
+            .frame(height: 8)
         }
+        .padding(.bottom, 8)
     }
 }

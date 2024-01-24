@@ -12,15 +12,14 @@ struct MenuBarView: View {
     @AppStorage("userName") private var userName: String = ""
     var body: some View {
         VStack {
-            VStack {
-                Text("\(greeting), \(userName)!")
-                    .monospaced()
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                Text("You have focused for 25 minutes today.")
-                    .monospaced()
-                    .frame(maxWidth: .infinity, alignment: .leading)
-            }
-            .padding()
+            Divider()
+                .opacity(0)
+            Text("\(greeting), \(userName)!\nYou have focused for 25 minutes today.")
+                .monospaced()
+                .scaledToFill()
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding([.top, .bottom], 8)
+                .padding([.leading, .trailing])
             Divider()
             switch model.pomodoroState {
             case .stopped:
@@ -35,25 +34,9 @@ struct MenuBarView: View {
 
             case.studySessionActive:
                 GaugeProgressView(title: "Time remaining for the study sprint", model: model)
-                HStack {
-                    Text("You're doing great! :>")
-                    Spacer()
-                }
-                .monospaced()
-                .font(.callout)
-                .padding([.bottom, .leading], 8)
-                stopSessionButton
-
+                    .frame(maxWidth: .infinity, alignment: .leading)
             case .restSessionActive:
                 GaugeProgressView(title: "Time remaining for the rest sprint", model: model)
-                HStack {
-                    Text("Time to get some rest!")
-                    Spacer()
-                }
-                .monospaced()
-                .font(.callout)
-                .padding([.bottom, .leading], 8 )
-                stopSessionButton
             }
             Divider()
             Button(action: {
@@ -62,9 +45,11 @@ struct MenuBarView: View {
                 Text("Quit Drizzle")
             })
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding([.leading, .bottom])
+            .padding([.leading])
             .buttonStyle(.accessoryBar)
             .keyboardShortcut("q")
+            Divider()
+                .opacity(0)
         }
     }
     var stopSessionButton: some View {
