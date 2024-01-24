@@ -17,6 +17,7 @@
 		6222CF9A2B5ED91200457039 /* PomodoroViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6222CF992B5ED91200457039 /* PomodoroViewModel.swift */; };
 		6222CF9C2B5EE77F00457039 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6222CF9B2B5EE77F00457039 /* ProgressView.swift */; };
 		6222CF9E2B5F333400457039 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6222CF9D2B5F333400457039 /* OnboardingView.swift */; };
+		62CFE2E72B5FEE5A00EF1B81 /* MenuBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62CFE2E62B5FEE5A00EF1B81 /* MenuBarView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		6222CF992B5ED91200457039 /* PomodoroViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PomodoroViewModel.swift; sourceTree = "<group>"; };
 		6222CF9B2B5EE77F00457039 /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
 		6222CF9D2B5F333400457039 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		62CFE2E62B5FEE5A00EF1B81 /* MenuBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +111,7 @@
 				6222CF992B5ED91200457039 /* PomodoroViewModel.swift */,
 				6222CF9B2B5EE77F00457039 /* ProgressView.swift */,
 				6222CF9D2B5F333400457039 /* OnboardingView.swift */,
+				62CFE2E62B5FEE5A00EF1B81 /* MenuBarView.swift */,
 			);
 			path = Drizzle;
 			sourceTree = "<group>";
@@ -294,6 +297,7 @@
 				6222CF712B5ED73C00457039 /* ContentView.swift in Sources */,
 				6222CF9C2B5EE77F00457039 /* ProgressView.swift in Sources */,
 				6222CF6F2B5ED73C00457039 /* DrizzleApp.swift in Sources */,
+				62CFE2E72B5FEE5A00EF1B81 /* MenuBarView.swift in Sources */,
 				6222CF9E2B5F333400457039 /* OnboardingView.swift in Sources */,
 				6222CF9A2B5ED91200457039 /* PomodoroViewModel.swift in Sources */,
 			);
@@ -456,7 +460,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Drizzle/Drizzle.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -483,7 +487,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Drizzle/Drizzle.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;

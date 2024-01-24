@@ -14,20 +14,29 @@ struct DrizzleApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView(model: viewModel)
-                .frame(minWidth: 500, maxWidth: 750, minHeight: 333, maxHeight: 500)
+                .frame(minWidth: 750, maxWidth: 750, minHeight: 500, maxHeight: 500)
             .onAppear {
                 requestNotificationPermissions()
             }
         }
         MenuBarExtra(content: {
-
+            MenuBarView(model: viewModel)
+                .frame(minWidth: 300, maxWidth: 300, minHeight: 275, maxHeight: 275)
         }, label: {
-            if viewModel.pomodoroState == .stopped {
-                Text("No timer running")
-            } else {
+            switch viewModel.pomodoroState {
+            case .stopped:
+                Image(systemName: "cloud.moon.rain")
+            case .studySessionActive:
+                Image(systemName: "cloud.sun.rain")
                 Text(viewModel.timeRemaining.parsedTimestamp)
+            case .restSessionActive:
+                HStack {
+                    Image(systemName: "rainbow")
+                    Text(viewModel.timeRemaining.parsedTimestamp)
+                }
             }
         })
+        .menuBarExtraStyle(.window)
     }
 }
 

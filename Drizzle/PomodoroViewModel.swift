@@ -9,8 +9,8 @@ import SwiftUI
 import UserNotifications
 
 final class PomodoroViewModel: ObservableObject {
-    let FOCUS_DURATION = 1 * 10 // 25 minutes
-    let REST_DURATION = 5 * 60
+    let FOCUS_DURATION = 1 * 60 // 25 minutes
+    let REST_DURATION = 2 * 60
 
     enum PomodoroState {
         case studySessionActive
@@ -41,38 +41,48 @@ final class PomodoroViewModel: ObservableObject {
     }
 
     @Published var timeRemaining = 0
-    @Published var parsedTimeRemaining = "0"
     @Published var progress: Float = 0.0
     @Published var timerViewColor: Color = .orange // default is study
 
     private func startTimer() {
-        pomodoro = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { [weak self] _ in
-            guard let self else { return }
-            self.timeRemaining -= 1
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            guard let self = self else { return }
 
-            switch pomodoroState {
-            case .studySessionActive:
-                self.progress = Float(self.timeRemaining) / Float(self.FOCUS_DURATION)
-                if self.timeRemaining < 0 {
-                    pomodoro.invalidate()
-                    self.sendLocalNotification(
-                        title: "You did it!",
-                        body: "Your 25 minutes study sprint is over. Enjoy a well deserved 5 minutes break!")
-                    self.pomodoroState = .restSessionActive
+            // Schedule the timer on the current run loop of the background thread
+            pomodoro = Timer(timeInterval: 1.0, repeats: true) { [weak self] _ in
+                guard let self = self else { return }
+
+                DispatchQueue.main.async {
+                    self.timeRemaining -= 1
+                    switch self.pomodoroState {
+                    case .studySessionActive:
+                        self.progress = Float(self.timeRemaining) / Float(self.FOCUS_DURATION)
+                        if self.timeRemaining < 0 {
+                            self.pomodoro.invalidate()
+                            self.sendLocalNotification(
+                                title: "You did it!",
+                                body: "Your 25 minutes study sprint is over. Enjoy a well-deserved 5 minutes break!"
+                            )
+                            self.pomodoroState = .restSessionActive
+                        }
+                    case .restSessionActive:
+                        self.progress = Float(self.timeRemaining) / Float(self.REST_DURATION)
+                        if self.timeRemaining < 0 {
+                            self.sendLocalNotification(
+                                title: "Let's get back to work!",
+                                body: "Your 5 minutes resting sprint is over.")
+                            self.pomodoroState = .stopped
+                        }
+                    case .stopped:
+                        // should never reach here
+                        break
+                    }
                 }
-            case .restSessionActive:
-                self.progress = Float(self.timeRemaining) / Float(self.REST_DURATION)
-                if self.timeRemaining < 0 {
-                    self.sendLocalNotification(
-                        title: "Let's get back to work!",
-                        body: "Your 5 minutes resting sprint is over.")
-                    self.pomodoroState = .stopped
                 }
-            case .stopped:
-                // should never reach here
-                break
-            }
-        })
+
+            RunLoop.current.add(pomodoro, forMode: .default)
+            RunLoop.current.run()
+        }
     }
 
     func sendLocalNotification(title: String, body: String) {
@@ -80,9 +90,10 @@ final class PomodoroViewModel: ObservableObject {
         content.title = title
         content.body = body
         content.sound = UNNotificationSound.default
+        // Time Sensitive interruption level so that the notification of the timers ending shows up on every focus.
+        content.interruptionLevel = .timeSensitive
 
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-
         let request = UNNotificationRequest(identifier: "successNotification", content: content, trigger: trigger)
 
         UNUserNotificationCenter.current().add(request) { error in
