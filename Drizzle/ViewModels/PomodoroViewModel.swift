@@ -9,16 +9,15 @@ import SwiftUI
 import UserNotifications
 
 final class PomodoroViewModel: ObservableObject {
-    let FOCUS_DURATION = 1 * 60 // 25 minutes
-    let REST_DURATION = 2 * 60
-
     enum PomodoroState {
         case studySessionActive
         case restSessionActive
         case stopped
     }
-
-    private var pomodoro = Timer()
+    @AppStorage("lastSeenFocusTime") var lastFocusedMinutes: Int = 0
+    @Published var timeRemaining = 0
+    @Published var progress: Float = 0.0
+    @Published var timerViewColor: Color = .orange // default is study
     @Published var pomodoroState: PomodoroState = .stopped {
         didSet {
             switch pomodoroState {
@@ -39,11 +38,9 @@ final class PomodoroViewModel: ObservableObject {
             }
         }
     }
-
-    @Published var timeRemaining = 0
-    @Published var progress: Float = 0.0
-    @Published var timerViewColor: Color = .orange // default is study
-
+    private var pomodoro = Timer()
+    var FOCUS_DURATION: Int = 0
+    var REST_DURATION: Int = 0
     private func startTimer() {
         DispatchQueue.global(qos: .background).async { [weak self] in
             guard let self = self else { return }
@@ -58,6 +55,8 @@ final class PomodoroViewModel: ObservableObject {
                     case .studySessionActive:
                         self.progress = Float(self.timeRemaining) / Float(self.FOCUS_DURATION)
                         if self.timeRemaining < 0 {
+                            // dividing total number of seconds by 60 to avoid declaring variables for the minutes count
+                            self.lastFocusedMinutes += self.FOCUS_DURATION / 60
                             self.pomodoro.invalidate()
                             self.sendLocalNotification(
                                 title: "You did it!",

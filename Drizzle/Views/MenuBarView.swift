@@ -14,7 +14,7 @@ struct MenuBarView: View {
         VStack {
             Divider()
                 .opacity(0)
-            Text("\(greeting), \(userName)!\nYou have focused for 25 minutes today.")
+            Text("\(greeting), \(userName)!\nYou have focused for \(model.lastFocusedMinutes) minutes today.")
                 .monospaced()
                 .scaledToFill()
                 .frame(maxWidth: .infinity, alignment: .leading)

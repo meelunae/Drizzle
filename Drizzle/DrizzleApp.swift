@@ -17,6 +17,7 @@ struct DrizzleApp: App {
                 .frame(minWidth: 750, maxWidth: 750, minHeight: 500, maxHeight: 500)
             .onAppear {
                 requestNotificationPermissions()
+                setLastSeenActivity()
             }
         }
         MenuBarExtra(content: {
@@ -37,6 +38,34 @@ struct DrizzleApp: App {
             }
         })
         .menuBarExtraStyle(.window)
+    }
+}
+
+func setLastSeenActivity() {
+    @AppStorage("lastSeenDate") var lastFocusedDate: String = ""
+    @AppStorage("lastSeenFocusTime") var lastFocusedMinutes: Int = 0
+    if !lastFocusedDate.isEmpty {
+        // if we get in here the app has already been launched before and AppStorage variable is set.
+        let today = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let todayString = dateFormatter.string(from: today)
+        // Convert date strings to Date objects
+        if let date1 = dateFormatter.date(from: lastFocusedDate),
+            let date2 = dateFormatter.date(from: todayString) {
+            let comparisonResult = date1.compare(date2)
+            if comparisonResult == .orderedSame {
+                print("Dates are equal")
+            } else if comparisonResult == .orderedAscending {
+                // In this case, the app was not launched yet today, and we adjust our AppStorage accordingly.
+                lastFocusedDate = todayString
+                lastFocusedMinutes = 0
+            } else {
+                print("Something went wrong; this should not happen ever.")
+            }
+        } else {
+            print("Invalid date strings")
+        }
     }
 }
 
