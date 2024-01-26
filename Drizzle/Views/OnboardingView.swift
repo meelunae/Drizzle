@@ -62,51 +62,52 @@ struct OnboardingFormView: View {
     var body: some View {
         if !transitionToNextView {
             VStack {
-                Spacer()
-                VStack {
-                    Text("What is your name?")
-                        .font(.title)
-                        .fontWeight(.semibold)
-                        .monospaced()
-                    HStack {
-                        Spacer()
-                        TextField(
-                            "Name",
-                            text: $name
-                        )
-                        .frame(width: 250)
-                        .onChange(of: name) { newValue in
-                            validateInputAsync(newValue)
-                        }
-                        .monospaced()
-                        .font(.title3)
-                        .disableAutocorrection(true)
-                        .textFieldStyle(.plain)
-                        .padding(.vertical, 10)
-                        .overlay(
-                            RoundedRectangle(
-                                cornerSize: CGSize(width: 1, height: 1))
-                            .frame(height: 1).padding(.top, 35)
-                        )
-                        .padding(10)
-                        if isNameValid {
-                            Button(action: {
-                                transitionToNextView = true
-                            }, label: {
-                                Image(systemName: "arrow.right.circle")
-                            })
-                            .monospaced()
-                            .font(.title3)
-                            .buttonStyle(.plain)
-                            .padding(.vertical, 10)
-                        }
-                        Spacer()
-                    }
-                }
-            }
-                Spacer()
-                HStack { Spacer() }
+                 Spacer()
+                 VStack {
+                     Text("What is your name?")
+                         .font(.title)
+                         .fontWeight(.semibold)
+                         .monospaced()
 
+                     HStack {
+                         Spacer()
+                         TextField(
+                             "Name",
+                             text: $name
+                         )
+                         .frame(width: 250)
+                         .onChange(of: name) { newValue in
+                             validateInputAsync(newValue)
+                          }
+                         .monospaced()
+                         .font(.title3)
+                         .disableAutocorrection(true)
+                         .textFieldStyle(.plain)
+                         .padding(.vertical, 10)
+                         .overlay(
+                             RoundedRectangle(
+                                 cornerSize: CGSize(width: 1, height: 1))
+                                 .frame(height: 1).padding(.top, 35)
+                         )
+                         .padding(10)
+
+                         if isNameValid {
+                             Button(action: {
+                                 transitionToNextView = true
+                             }, label: {
+                                 Image(systemName: "arrow.right.circle")
+                             })
+                             .monospaced()
+                             .font(.title3)
+                             .buttonStyle(.plain)
+                             .padding(.vertical, 10)
+                         }
+                         Spacer()
+                     }
+                 }
+                 Spacer()
+                 HStack { Spacer() }
+             }
         } else {
             OnboardingDurationPickerView()
         }
@@ -237,5 +238,5 @@ struct StepperView: View {
 }
 
 #Preview {
-    OnboardingDurationPickerView()
+    OnboardingView()
 }
