@@ -26,15 +26,19 @@ struct DrizzleApp: App {
         }, label: {
             switch viewModel.pomodoroState {
             case .stopped:
-                Image(systemName: "cloud.moon.rain")
+                Image("CloudIcon")
             case .studySessionActive:
-                Image(systemName: "cloud.sun.rain")
-                Text(viewModel.timeRemaining.parsedTimestamp)
-            case .restSessionActive:
                 HStack {
-                    Image(systemName: "rainbow")
+                    Image("RainIcon")
                     Text(viewModel.timeRemaining.parsedTimestamp)
                 }
+                .padding()
+            case .restSessionActive:
+                HStack {
+                    Image(systemName: "SunIcon")
+                    Text(viewModel.timeRemaining.parsedTimestamp)
+                }
+                .padding()
             }
         })
         .menuBarExtraStyle(.window)

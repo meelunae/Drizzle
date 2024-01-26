@@ -68,7 +68,6 @@ struct OnboardingFormView: View {
                         .font(.title)
                         .fontWeight(.semibold)
                         .monospaced()
-                    
                     HStack {
                         Spacer()
                         TextField(
@@ -169,7 +168,6 @@ struct OnboardingDurationPickerView: View {
                             .padding()
                         HStack {
                             Button(action: {
-                                
                                 showOnboarding = false
                             }, label: {
                                 Text("Let's get started")
