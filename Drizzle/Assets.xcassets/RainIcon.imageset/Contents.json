@@ -1,24 +1,12 @@
 {
   "images" : [
     {
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "idiom" : "universal",
-      "scale" : "3x"
-    },
-    {
-      "filename" : "rain_22.png",
+      "filename" : "rainy_cloud_32.png",
       "idiom" : "mac",
       "scale" : "1x"
     },
     {
-      "filename" : "rain_44.png",
+      "filename" : "rainy_cloud_64.png",
       "idiom" : "mac",
       "scale" : "2x"
     }

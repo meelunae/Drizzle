@@ -1,12 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "cloud_32.png",
+      "filename" : "logo_cut 1.png",
       "idiom" : "mac",
       "scale" : "1x"
     },
     {
-      "filename" : "cloud_64.png",
+      "filename" : "logo_cut.png",
       "idiom" : "mac",
       "scale" : "2x"
     }
