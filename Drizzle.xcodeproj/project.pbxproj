@@ -17,6 +17,8 @@
 		6222CF9A2B5ED91200457039 /* PomodoroViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6222CF992B5ED91200457039 /* PomodoroViewModel.swift */; };
 		6222CF9C2B5EE77F00457039 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6222CF9B2B5EE77F00457039 /* ProgressView.swift */; };
 		6222CF9E2B5F333400457039 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6222CF9D2B5F333400457039 /* OnboardingView.swift */; };
+		6253B9292B6C20FD004A6352 /* CloudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6253B9282B6C20FD004A6352 /* CloudView.swift */; };
+		6253B92B2B6C4E6C004A6352 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6253B92A2B6C4E6C004A6352 /* Extensions.swift */; };
 		62CFE2E72B5FEE5A00EF1B81 /* MenuBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62CFE2E62B5FEE5A00EF1B81 /* MenuBarView.swift */; };
 /* End PBXBuildFile section */
 
@@ -52,6 +54,8 @@
 		6222CF992B5ED91200457039 /* PomodoroViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PomodoroViewModel.swift; sourceTree = "<group>"; };
 		6222CF9B2B5EE77F00457039 /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
 		6222CF9D2B5F333400457039 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		6253B9282B6C20FD004A6352 /* CloudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudView.swift; sourceTree = "<group>"; };
+		6253B92A2B6C4E6C004A6352 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		62CFE2E62B5FEE5A00EF1B81 /* MenuBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -109,6 +113,7 @@
 				6222CF722B5ED73D00457039 /* Assets.xcassets */,
 				6222CF772B5ED73D00457039 /* Drizzle.entitlements */,
 				6222CF742B5ED73D00457039 /* Preview Content */,
+				6253B92A2B6C4E6C004A6352 /* Extensions.swift */,
 			);
 			path = Drizzle;
 			sourceTree = "<group>";
@@ -145,6 +150,7 @@
 				6222CF9B2B5EE77F00457039 /* ProgressView.swift */,
 				6222CF9D2B5F333400457039 /* OnboardingView.swift */,
 				62CFE2E62B5FEE5A00EF1B81 /* MenuBarView.swift */,
+				6253B9282B6C20FD004A6352 /* CloudView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -313,9 +319,11 @@
 				6222CF712B5ED73C00457039 /* ContentView.swift in Sources */,
 				6222CF9C2B5EE77F00457039 /* ProgressView.swift in Sources */,
 				6222CF6F2B5ED73C00457039 /* DrizzleApp.swift in Sources */,
+				6253B92B2B6C4E6C004A6352 /* Extensions.swift in Sources */,
 				62CFE2E72B5FEE5A00EF1B81 /* MenuBarView.swift in Sources */,
 				6222CF9E2B5F333400457039 /* OnboardingView.swift in Sources */,
 				6222CF9A2B5ED91200457039 /* PomodoroViewModel.swift in Sources */,
+				6253B9292B6C20FD004A6352 /* CloudView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

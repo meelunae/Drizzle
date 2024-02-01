@@ -22,6 +22,12 @@ struct DrizzleApp: App {
         }
         MenuBarExtra(content: {
             MenuBarView(model: viewModel)
+                .background(
+                     LinearGradient(gradient: Gradient(colors: [Color(hex: 0x6274e7), Color(hex: 0x28b8d5)]),
+                         startPoint: .topLeading,
+                         endPoint: .bottomTrailing)
+                     .opacity(0.8)
+                     .edgesIgnoringSafeArea(.all))
                 .frame(minWidth: 350, maxWidth: 350)
         }, label: {
             switch viewModel.pomodoroState {
@@ -35,7 +41,7 @@ struct DrizzleApp: App {
                 .padding()
             case .restSessionActive:
                 HStack {
-                    Image(systemName: "SunIcon")
+                    Image("SunIcon")
                     Text(viewModel.timeRemaining.parsedTimestamp)
                 }
                 .padding()
@@ -46,30 +52,24 @@ struct DrizzleApp: App {
 }
 
 func setLastSeenActivity() {
-    @AppStorage("lastSeenDate") var lastFocusedDate: String = ""
+    let today = Date()
+    let initialEpochDate = Date(timeIntervalSince1970: 0)
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd"
+    let todayString = dateFormatter.string(from: today)
+    @AppStorage("lastSeenDate") var lastFocusedDate: String = dateFormatter.string(from: initialEpochDate)
     @AppStorage("lastSeenFocusTime") var lastFocusedMinutes: Int = 0
-    if !lastFocusedDate.isEmpty {
-        // if we get in here the app has already been launched before and AppStorage variable is set.
-        let today = Date()
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        let todayString = dateFormatter.string(from: today)
-        // Convert date strings to Date objects
-        if let date1 = dateFormatter.date(from: lastFocusedDate),
-            let date2 = dateFormatter.date(from: todayString) {
-            let comparisonResult = date1.compare(date2)
-            if comparisonResult == .orderedSame {
-                print("Dates are equal")
-            } else if comparisonResult == .orderedAscending {
-                // In this case, the app was not launched yet today, and we adjust our AppStorage accordingly.
-                lastFocusedDate = todayString
-                lastFocusedMinutes = 0
-            } else {
-                print("Something went wrong; this should not happen ever.")
-            }
-        } else {
-            print("Invalid date strings")
+    // Convert date strings to Date objects
+    if let date1 = dateFormatter.date(from: lastFocusedDate),
+       let date2 = dateFormatter.date(from: todayString) {
+        let comparisonResult = date1.compare(date2)
+        // In this case, the app was not launched yet today, and we adjust our AppStorage accordingly.
+        if comparisonResult == .orderedAscending {
+            lastFocusedDate = todayString
+            lastFocusedMinutes = 0
         }
+    } else {
+        print("Invalid date strings")
     }
 }
 
@@ -80,13 +80,5 @@ func requestNotificationPermissions() {
         } else if let error = error {
             print("Error requesting notification permissions: \(error.localizedDescription)")
         }
-    }
-}
-
-extension Int {
-    var parsedTimestamp: String {
-        let minute = self / 60 % 60
-        let second = self % 60
-        return String(format: "%02i:%02i", minute, second)
     }
 }

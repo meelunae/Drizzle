@@ -98,8 +98,6 @@ final class PomodoroViewModel: ObservableObject {
         UNUserNotificationCenter.current().add(request) { error in
             if let error = error {
                 print("Error adding notification request: \(error.localizedDescription)")
-            } else {
-                print("Notification request added successfully")
             }
         }
     }

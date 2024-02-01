@@ -11,14 +11,28 @@ struct OnboardingView: View {
     @State private var showLogo = true
     var body: some View {
         if showLogo {
-            OnboardingLogoView()
-                .onAppear {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
-                        showLogo = false
-                    }
+                OnboardingLogoView()
+                .background(
+                    LinearGradient(gradient: Gradient(colors: [Color(hex: 0x6274e7), Color(hex: 0x28b8d5)]),
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing)
+                    .opacity(0.8)
+                    .edgesIgnoringSafeArea(.all)
+                )
+            .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+                    showLogo = false
                 }
+            }
         } else {
             OnboardingFormView()
+                .background(
+                    LinearGradient(gradient: Gradient(colors: [Color(hex: 0x6274e7), Color(hex: 0x28b8d5)]),
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing)
+                    .opacity(0.8)
+                    .edgesIgnoringSafeArea(.all)
+                )
         }
     }
 }
@@ -30,9 +44,11 @@ struct OnboardingLogoView: View {
             Spacer()
             VStack {
                 if !showText {
-                    Image(systemName: "cloud.rain.circle.fill")
-                        .font(.largeTitle)
+                    Image("AppLogo")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
                         .transition(.opacity)
+                        .frame(width: 64, height: 64)
                         .padding([.bottom], 4)
                     Text("Welcome to Drizzle")
                         .fontWeight(.bold)
@@ -48,7 +64,7 @@ struct OnboardingLogoView: View {
             }
             Spacer()
             // This ensures the parent is kept wide to avoid the shift.
-                   HStack { Spacer() }
+            HStack { Spacer() }
         }
     }
 }
@@ -62,52 +78,48 @@ struct OnboardingFormView: View {
     var body: some View {
         if !transitionToNextView {
             VStack {
-                 Spacer()
-                 VStack {
-                     Text("What is your name?")
-                         .font(.title)
-                         .fontWeight(.semibold)
-                         .monospaced()
-
-                     HStack {
-                         Spacer()
-                         TextField(
-                             "Name",
-                             text: $name
-                         )
-                         .frame(width: 250)
-                         .onChange(of: name) { newValue in
-                             validateInputAsync(newValue)
-                          }
-                         .monospaced()
-                         .font(.title3)
-                         .disableAutocorrection(true)
-                         .textFieldStyle(.plain)
-                         .padding(.vertical, 10)
-                         .overlay(
-                             RoundedRectangle(
-                                 cornerSize: CGSize(width: 1, height: 1))
-                                 .frame(height: 1).padding(.top, 35)
-                         )
-                         .padding(10)
-
-                         if isNameValid {
-                             Button(action: {
-                                 transitionToNextView = true
-                             }, label: {
-                                 Image(systemName: "arrow.right.circle")
-                             })
-                             .monospaced()
-                             .font(.title3)
-                             .buttonStyle(.plain)
-                             .padding(.vertical, 10)
-                         }
-                         Spacer()
-                     }
-                 }
-                 Spacer()
-                 HStack { Spacer() }
-             }
+                Spacer()
+                VStack {
+                    Text("What is your name?")
+                        .font(.title)
+                        .fontWeight(.semibold)
+                        .monospaced()
+                    HStack {
+                        Spacer()
+                        TextField("Name", text: $name)
+                        .frame(width: 250)
+                        .onChange(of: name) { newValue in
+                            validateInputAsync(newValue)
+                        }
+                        .monospaced()
+                        .font(.title3)
+                        .disableAutocorrection(true)
+                        .textFieldStyle(.plain)
+                        .padding(.vertical, 10)
+                        .overlay(
+                            RoundedRectangle(
+                                cornerSize: CGSize(width: 1, height: 1)
+                            )
+                            .frame(height: 1)
+                            .padding(.top, 35)
+                        )
+                        .padding(8)
+                        Button(action: {
+                            transitionToNextView = true
+                        }, label: {
+                            Image(systemName: "arrow.right.circle")
+                        })
+                        .monospaced()
+                        .font(.title3)
+                        .buttonStyle(.plain)
+                        .padding(.vertical, 10)
+                        .disabled(!isNameValid)
+                        Spacer()
+                    }
+                }
+                Spacer()
+                HStack { Spacer() }
+            }
         } else {
             OnboardingDurationPickerView()
         }
@@ -168,16 +180,24 @@ struct OnboardingDurationPickerView: View {
                             .font(.title3)
                             .padding()
                         HStack {
+                            Spacer()
                             Button(action: {
                                 showOnboarding = false
                             }, label: {
-                                Text("Let's get started")
+                                Text("Get started")
                             })
                             .monospaced()
                             .font(.title3)
-                            .background(Color.orange)
-                            .clipShape(Capsule())
                             .padding()
+                            .buttonStyle(PlainButtonStyle())
+                            .overlay(
+                                RoundedRectangle(
+                                    cornerRadius: 12,
+                                    style: .continuous
+                                )
+                                .stroke(Color.white, lineWidth: 1)
+                                .background(Color.clear)
+                            )
                             Spacer()
                         }
                     }
@@ -195,19 +215,22 @@ struct StepperView: View {
     let label: String
     let minValue: Int
     let maxValue: Int
+    @State var hasReachedMin: Bool = true
+    @State var hasReachedMax: Bool = false
     @Binding var currentValue: Int
     var body: some View {
         HStack {
             Text("\(label)")
             Text("\(currentValue) mins")
             Spacer()
-                .frame(width: 10)
+            .frame(width: 10)
             Button(action: {
                 currentValue -= 1
                 print("Pressed minus button")
             }, label: {
                 Text("\(Image(systemName: "minus"))")
             })
+            .disabled(hasReachedMin)
             .padding(4)
             .buttonStyle(.plain)
             Divider().frame(width: 1) // vertical divider
@@ -216,6 +239,7 @@ struct StepperView: View {
             }, label: {
                 Text("\(Image(systemName: "plus"))")
             })
+            .disabled(hasReachedMax)
             .padding(4)
             .buttonStyle(.plain)
         }
@@ -226,11 +250,14 @@ struct StepperView: View {
             if newValue < minValue {
                 currentValue = minValue
             } else if newValue == minValue {
-                // disable minus
+                hasReachedMin = true
             } else if newValue == maxValue {
-                // disable plus
+                hasReachedMax = true
             } else if newValue > maxValue {
                 currentValue = maxValue
+            } else {
+                hasReachedMin = false
+                hasReachedMax = false
             }
         }
         .frame(height: 20)
