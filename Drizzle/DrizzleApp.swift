@@ -10,24 +10,33 @@ import UserNotifications
 
 @main
 struct DrizzleApp: App {
+    @AppStorage("showUserOnboarding") var showOnboarding: Bool = true
     @StateObject var viewModel = PomodoroViewModel()
     var body: some Scene {
         WindowGroup {
-            ContentView(model: viewModel)
-                .frame(minWidth: 750, maxWidth: 750, minHeight: 500, maxHeight: 500)
-            .onAppear {
-                requestNotificationPermissions()
-                setLastSeenActivity()
+            if showOnboarding {
+                OnboardingView()
+            } else {
+                ContentView(model: viewModel)
+                .onAppear {
+                    requestNotificationPermissions()
+                    setLastSeenActivity()
+                }
             }
         }
+        .defaultSize(width: 750, height: 500)
+        .windowStyle(HiddenTitleBarWindowStyle())
         MenuBarExtra(content: {
             MenuBarView(model: viewModel)
-                .background(
-                     LinearGradient(gradient: Gradient(colors: [Color(hex: 0x6274e7), Color(hex: 0x28b8d5)]),
-                         startPoint: .topLeading,
-                         endPoint: .bottomTrailing)
-                     .opacity(0.8)
-                     .edgesIgnoringSafeArea(.all))
+            .background(
+                LinearGradient(gradient: Gradient(colors: [
+                    Color(.idleGradientPrimary),
+                    Color(.idleGradientSecondary)]
+                ),
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing)
+                .opacity(0.8)
+                .edgesIgnoringSafeArea(.all))
                 .frame(minWidth: 350, maxWidth: 350)
         }, label: {
             switch viewModel.pomodoroState {

@@ -8,15 +8,11 @@
 import SwiftUI
 
 struct ContentView: View {
-    @AppStorage("showUserOnboarding") var showOnboarding: Bool = true
     @AppStorage("studyDuration") private var studyDuration: Int = 5
     @AppStorage("restingDuration") private var restingDuration: Int = 5
     @AppStorage("userName") private var userName: String = ""
     @ObservedObject var model: PomodoroViewModel
     var body: some View {
-        if showOnboarding {
-            OnboardingView()
-        } else {
             switch model.pomodoroState {
             case .studySessionActive:
                 VStack {
@@ -46,9 +42,8 @@ struct ContentView: View {
                     if let bundleID = Bundle.main.bundleIdentifier {
                         UserDefaults.standard.removePersistentDomain(forName: bundleID)
                     }
-                }, label: {Text("Safeguard")})
+                }, label: {Text("Reset")})
             }
-        }
     }
 
     var progressView: some View {

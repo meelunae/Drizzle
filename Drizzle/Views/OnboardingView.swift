@@ -13,7 +13,10 @@ struct OnboardingView: View {
         if showLogo {
                 OnboardingLogoView()
                 .background(
-                    LinearGradient(gradient: Gradient(colors: [Color(hex: 0x6274e7), Color(hex: 0x28b8d5)]),
+                    LinearGradient(gradient: Gradient(colors: [
+                        Color(.idleGradientPrimary),
+                        Color(.idleGradientSecondary)]
+                        ),
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing)
                     .opacity(0.8)
@@ -27,7 +30,10 @@ struct OnboardingView: View {
         } else {
             OnboardingFormView()
                 .background(
-                    LinearGradient(gradient: Gradient(colors: [Color(hex: 0x6274e7), Color(hex: 0x28b8d5)]),
+                    LinearGradient(gradient: Gradient(colors: [
+                        Color(.idleGradientPrimary),
+                        Color(.idleGradientSecondary)]
+                        ),
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing)
                     .opacity(0.8)
@@ -226,7 +232,6 @@ struct StepperView: View {
             .frame(width: 10)
             Button(action: {
                 currentValue -= 1
-                print("Pressed minus button")
             }, label: {
                 Text("\(Image(systemName: "minus"))")
             })
