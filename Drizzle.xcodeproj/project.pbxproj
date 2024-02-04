@@ -17,8 +17,12 @@
 		6222CF9A2B5ED91200457039 /* PomodoroViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6222CF992B5ED91200457039 /* PomodoroViewModel.swift */; };
 		6222CF9C2B5EE77F00457039 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6222CF9B2B5EE77F00457039 /* ProgressView.swift */; };
 		6222CF9E2B5F333400457039 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6222CF9D2B5F333400457039 /* OnboardingView.swift */; };
+		622630E32B703B7100102628 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 622630E22B703B7100102628 /* SettingsView.swift */; };
+		622630E52B704F0800102628 /* AppPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 622630E42B704F0800102628 /* AppPreferences.swift */; };
 		6253B92B2B6C4E6C004A6352 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6253B92A2B6C4E6C004A6352 /* Extensions.swift */; };
+		629492392B6DAAD20079CA42 /* Backgrounds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629492382B6DAAD20079CA42 /* Backgrounds.swift */; };
 		62CFE2E72B5FEE5A00EF1B81 /* MenuBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62CFE2E62B5FEE5A00EF1B81 /* MenuBarView.swift */; };
+		62F1BCF82B6D3EE00038E554 /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62F1BCF72B6D3EE00038E554 /* SidebarView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,8 +57,12 @@
 		6222CF992B5ED91200457039 /* PomodoroViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PomodoroViewModel.swift; sourceTree = "<group>"; };
 		6222CF9B2B5EE77F00457039 /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
 		6222CF9D2B5F333400457039 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		622630E22B703B7100102628 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		622630E42B704F0800102628 /* AppPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppPreferences.swift; sourceTree = "<group>"; };
 		6253B92A2B6C4E6C004A6352 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		629492382B6DAAD20079CA42 /* Backgrounds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Backgrounds.swift; sourceTree = "<group>"; };
 		62CFE2E62B5FEE5A00EF1B81 /* MenuBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarView.swift; sourceTree = "<group>"; };
+		62F1BCF72B6D3EE00038E554 /* SidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,13 +113,14 @@
 		6222CF6D2B5ED73C00457039 /* Drizzle */ = {
 			isa = PBXGroup;
 			children = (
-				62574C2C2B61B61400DC4585 /* ViewModels */,
-				62574C2B2B61B5FC00DC4585 /* Views */,
+				622630E42B704F0800102628 /* AppPreferences.swift */,
 				6222CF6E2B5ED73C00457039 /* DrizzleApp.swift */,
+				6253B92A2B6C4E6C004A6352 /* Extensions.swift */,
+				62574C2B2B61B5FC00DC4585 /* Views */,
+				62574C2C2B61B61400DC4585 /* ViewModels */,
 				6222CF722B5ED73D00457039 /* Assets.xcassets */,
 				6222CF772B5ED73D00457039 /* Drizzle.entitlements */,
 				6222CF742B5ED73D00457039 /* Preview Content */,
-				6253B92A2B6C4E6C004A6352 /* Extensions.swift */,
 			);
 			path = Drizzle;
 			sourceTree = "<group>";
@@ -148,6 +157,9 @@
 				6222CF9B2B5EE77F00457039 /* ProgressView.swift */,
 				6222CF9D2B5F333400457039 /* OnboardingView.swift */,
 				62CFE2E62B5FEE5A00EF1B81 /* MenuBarView.swift */,
+				62F1BCF72B6D3EE00038E554 /* SidebarView.swift */,
+				629492382B6DAAD20079CA42 /* Backgrounds.swift */,
+				622630E22B703B7100102628 /* SettingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -314,12 +326,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				6222CF712B5ED73C00457039 /* ContentView.swift in Sources */,
+				629492392B6DAAD20079CA42 /* Backgrounds.swift in Sources */,
+				62F1BCF82B6D3EE00038E554 /* SidebarView.swift in Sources */,
 				6222CF9C2B5EE77F00457039 /* ProgressView.swift in Sources */,
 				6222CF6F2B5ED73C00457039 /* DrizzleApp.swift in Sources */,
+				622630E32B703B7100102628 /* SettingsView.swift in Sources */,
 				6253B92B2B6C4E6C004A6352 /* Extensions.swift in Sources */,
 				62CFE2E72B5FEE5A00EF1B81 /* MenuBarView.swift in Sources */,
 				6222CF9E2B5F333400457039 /* OnboardingView.swift in Sources */,
 				6222CF9A2B5ED91200457039 /* PomodoroViewModel.swift in Sources */,
+				622630E52B704F0800102628 /* AppPreferences.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

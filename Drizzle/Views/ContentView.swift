@@ -8,15 +8,13 @@
 import SwiftUI
 
 struct ContentView: View {
-    @AppStorage("studyDuration") private var studyDuration: Int = 5
-    @AppStorage("restingDuration") private var restingDuration: Int = 5
-    @AppStorage("userName") private var userName: String = ""
-    @ObservedObject var model: PomodoroViewModel
+    @EnvironmentObject var model: PomodoroViewModel
+    @EnvironmentObject var preferences: AppPreferences
     var body: some View {
             switch model.pomodoroState {
             case .studySessionActive:
                 VStack {
-                    Text("You can do it, \(userName)!")
+                    Text("You can do it, \(preferences.userName)!")
                         .monospaced()
                         .padding()
                         .font(.title3)
@@ -25,7 +23,7 @@ struct ContentView: View {
                 }
             case .restSessionActive:
                 VStack {
-                    Text("\(userName), get some well deserved rest!")
+                    Text("\(preferences.userName), get some well deserved rest!")
                         .monospaced()
                         .padding()
                         .font(.title3)
@@ -35,14 +33,9 @@ struct ContentView: View {
             default:
                 idleView
                     .onAppear(perform: {
-                        model.REST_DURATION = 60 * restingDuration
-                        model.FOCUS_DURATION = 60 * studyDuration
+                        model.REST_DURATION = 60 * preferences.restingDuration
+                        model.FOCUS_DURATION = 60 * preferences.studyDuration
                     })
-                Button(action: {
-                    if let bundleID = Bundle.main.bundleIdentifier {
-                        UserDefaults.standard.removePersistentDomain(forName: bundleID)
-                    }
-                }, label: {Text("Reset")})
             }
     }
 
@@ -65,18 +58,23 @@ struct ContentView: View {
 
     var idleView: some View {
         VStack {
-            Text("Welcome back, \(userName)!")
+            Text("Welcome back, \(preferences.userName)!")
                 .monospaced()
                 .font(.title)
                 .padding()
             Button(action: {
                 model.pomodoroState = .studySessionActive
             }, label: {Text("Start a new session!")})
+            Button(action: {
+                if let bundleID = Bundle.main.bundleIdentifier {
+                    UserDefaults.standard.removePersistentDomain(forName: bundleID)
+                }
+            }, label: {Text("Reset")})
         }
         .padding()
     }
 }
 
 #Preview {
-    ContentView(model: PomodoroViewModel())
+    ContentView()
 }
