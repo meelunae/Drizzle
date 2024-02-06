@@ -113,7 +113,6 @@
 		6222CF6D2B5ED73C00457039 /* Drizzle */ = {
 			isa = PBXGroup;
 			children = (
-				622630E42B704F0800102628 /* AppPreferences.swift */,
 				6222CF6E2B5ED73C00457039 /* DrizzleApp.swift */,
 				6253B92A2B6C4E6C004A6352 /* Extensions.swift */,
 				62574C2B2B61B5FC00DC4585 /* Views */,
@@ -167,6 +166,7 @@
 		62574C2C2B61B61400DC4585 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				622630E42B704F0800102628 /* AppPreferences.swift */,
 				6222CF992B5ED91200457039 /* PomodoroViewModel.swift */,
 			);
 			path = ViewModels;

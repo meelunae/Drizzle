@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct OnboardingView: View {
-    @EnvironmentObject var preferences: AppPreferences
     @State private var showLogo = true
     var body: some View {
         if showLogo {
@@ -21,7 +20,6 @@ struct OnboardingView: View {
             }
         } else {
             OnboardingFormView()
-                .environmentObject(preferences)
             .background(IdleGradientBackground())
         }
     }
@@ -75,9 +73,9 @@ struct OnboardingFormView: View {
                         .monospaced()
                     HStack {
                         Spacer()
-                        TextField("Name", text: $preferences.userName)
+                        TextField("Name", text: $preferences.values.userName)
                         .frame(width: 250)
-                        .onChange(of: preferences.userName) { newValue in
+                        .onChange(of: preferences.values.userName) { newValue in
                             validateInputAsync(newValue)
                         }
                         .monospaced()
@@ -111,7 +109,6 @@ struct OnboardingFormView: View {
             }
         } else {
             OnboardingDurationPickerView()
-                .environmentObject(preferences)
         }
     }
 
@@ -140,7 +137,7 @@ struct OnboardingDurationPickerView: View {
         VStack {
             Spacer()
             VStack {
-                Text("Nice to meet you, \(preferences.userName)!")
+                Text("Nice to meet you, \(preferences.values.userName)!")
                     .font(.title)
                     .fontWeight(.semibold)
                     .monospaced()
@@ -153,7 +150,7 @@ struct OnboardingDurationPickerView: View {
                         StepperView(label: "Study sprints:",
                                     minValue: 5,
                                     maxValue: 30,
-                                    currentValue: $preferences.studyDuration
+                                    currentValue: $preferences.values.studyDuration
                         )
                             .monospaced()
                             .font(.title3)
@@ -161,14 +158,15 @@ struct OnboardingDurationPickerView: View {
                         StepperView(label: "Resting sprints:",
                                     minValue: 5,
                                     maxValue: 30,
-                                    currentValue: $preferences.restingDuration)
+                                    currentValue: $preferences.values.restingDuration)
                             .monospaced()
                             .font(.title3)
                             .padding()
                         HStack {
                             Spacer()
                             Button(action: {
-                                preferences.showOnboarding = false
+                                preferences.values.showOnboarding = false
+                                print("Fired!")
                             }, label: {
                                 Text("Get started")
                             })

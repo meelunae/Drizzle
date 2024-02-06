@@ -10,11 +10,11 @@ import UserNotifications
 
 @main
 struct DrizzleApp: App {
-    var preferences = AppPreferences()
-    var viewModel = PomodoroViewModel()
+    @StateObject var preferences = AppPreferences()
+    @StateObject var viewModel = PomodoroViewModel()
     var body: some Scene {
         WindowGroup {
-            if preferences.showOnboarding {
+            if preferences.values.showOnboarding {
                 OnboardingView()
                     .environmentObject(preferences)
                     .frame(minWidth: 750, maxWidth: 750, minHeight: 500, maxHeight: 500)
@@ -64,13 +64,13 @@ struct DrizzleApp: App {
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let todayString = dateFormatter.string(from: today)
         // Convert date strings to Date objects
-        if let date1 = dateFormatter.date(from: preferences.lastFocusedDate),
+        if let date1 = dateFormatter.date(from: preferences.values.lastFocusedDate),
            let date2 = dateFormatter.date(from: todayString) {
             let comparisonResult = date1.compare(date2)
             // In this case, the app was not launched yet today, and we adjust our AppStorage accordingly.
             if comparisonResult == .orderedAscending {
-                preferences.lastFocusedDate = todayString
-                preferences.lastFocusedMinutes = 0
+                preferences.values.lastFocusedDate = todayString
+                preferences.values.lastFocusedMinutes = 0
             }
         } else {
             print("Invalid date strings")
