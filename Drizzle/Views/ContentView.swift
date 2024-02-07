@@ -13,49 +13,17 @@ struct ContentView: View {
     var body: some View {
             switch model.pomodoroState {
             case .studySessionActive:
-                VStack {
-                    Text("You can do it, \(preferences.values.userName)!")
-                        .monospaced()
-                        .padding()
-                        .font(.title3)
-                    progressView
-                        .frame(width: 250, height: 250)
-                }
+                studyView
             case .restSessionActive:
-                VStack {
-                    Text("\(preferences.values.userName), get some well deserved rest!")
-                        .monospaced()
-                        .padding()
-                        .font(.title3)
-                    progressView
-                        .frame(width: 250, height: 250)
-                }
+                restView
             default:
                 idleView
-                    .onAppear(perform: {
-                        model.REST_DURATION = 60 * preferences.values.restingDuration
-                        model.FOCUS_DURATION = 60 * preferences.values.studyDuration
-                    })
             }
     }
+}
 
-    var progressView: some View {
-        VStack {
-            ZStack {
-                withAnimation {
-                    CircularProgressView(progress: $model.progress, color: $model.timerViewColor)
-                }
-
-                Text(model.timeRemaining.parsedTimestamp)
-                    .font(.largeTitle)
-                    .monospaced()
-            }
-            Button(action: {
-                model.pomodoroState = .stopped
-            }, label: {Text("Stop timer")})
-        }
-    }
-
+private extension ContentView {
+    @ViewBuilder
     var idleView: some View {
         VStack {
             Text("Welcome back, \(preferences.values.userName)!")
@@ -73,6 +41,51 @@ struct ContentView: View {
             }, label: {Text("Reset")})
         }
         .padding()
+        .onAppear(perform: {
+            model.REST_DURATION = 60 * preferences.values.restingDuration
+            model.FOCUS_DURATION = 60 * preferences.values.studyDuration
+        })
+    }
+
+    @ViewBuilder
+    var progressView: some View {
+        VStack {
+            ZStack {
+                withAnimation {
+                    CircularProgressView(progress: $model.progress, color: $model.timerViewColor)
+                }
+                Text(model.timeRemaining.parsedTimestamp)
+                    .font(.largeTitle)
+                    .monospaced()
+            }
+            Button(action: {
+                model.pomodoroState = .stopped
+            }, label: {Text("Stop timer")})
+        }
+    }
+
+    @ViewBuilder
+    var restView: some View {
+        VStack {
+            Text("\(preferences.values.userName), get some well deserved rest!")
+                .monospaced()
+                .padding()
+                .font(.title3)
+            progressView
+                .frame(width: 250, height: 250)
+        }
+    }
+
+    @ViewBuilder
+    var studyView: some View {
+        VStack {
+            Text("You can do it, \(preferences.values.userName)!")
+                .monospaced()
+                .padding()
+                .font(.title3)
+            progressView
+                .frame(width: 250, height: 250)
+        }
     }
 }
 
