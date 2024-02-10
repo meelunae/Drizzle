@@ -73,9 +73,9 @@ struct OnboardingFormView: View {
                         .monospaced()
                     HStack {
                         Spacer()
-                        TextField("Name", text: $preferences.values.userName)
+                        TextField("Name", text: $preferences.userName)
                         .frame(width: 250)
-                        .onChange(of: preferences.values.userName) { newValue in
+                        .onChange(of: preferences.userName) { newValue in
                             validateInputAsync(newValue)
                         }
                         .monospaced()
@@ -131,13 +131,11 @@ struct OnboardingFormView: View {
 
 struct OnboardingDurationPickerView: View {
     @EnvironmentObject var preferences: AppPreferences
-    @State private var isNameValid: Bool = false
-    @State private var showUsernameGreeting: Bool = false
     var body: some View {
         VStack {
             Spacer()
             VStack {
-                Text("Nice to meet you, \(preferences.values.userName)!")
+                Text("Nice to meet you, \(preferences.userName)!")
                     .font(.title)
                     .fontWeight(.semibold)
                     .monospaced()
@@ -150,7 +148,7 @@ struct OnboardingDurationPickerView: View {
                         StepperView(label: "Study sprints:",
                                     minValue: 5,
                                     maxValue: 30,
-                                    currentValue: $preferences.values.studyDuration
+                                    currentValue: $preferences.studyDuration
                         )
                             .monospaced()
                             .font(.title3)
@@ -158,14 +156,14 @@ struct OnboardingDurationPickerView: View {
                         StepperView(label: "Resting sprints:",
                                     minValue: 5,
                                     maxValue: 30,
-                                    currentValue: $preferences.values.restingDuration)
+                                    currentValue: $preferences.restingDuration)
                             .monospaced()
                             .font(.title3)
                             .padding()
                         HStack {
                             Spacer()
                             Button(action: {
-                                preferences.values.showOnboarding = false
+                                preferences.showOnboarding = false
                                 print("Fired!")
                             }, label: {
                                 Text("Get started")

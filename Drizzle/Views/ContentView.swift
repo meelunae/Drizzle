@@ -26,7 +26,7 @@ private extension ContentView {
     @ViewBuilder
     var idleView: some View {
         VStack {
-            Text("Welcome back, \(preferences.values.userName)!")
+            Text("Welcome back, \(preferences.userName)!")
                 .monospaced()
                 .font(.title)
                 .padding()
@@ -42,8 +42,8 @@ private extension ContentView {
         }
         .padding()
         .onAppear(perform: {
-            model.REST_DURATION = 60 * preferences.values.restingDuration
-            model.FOCUS_DURATION = 60 * preferences.values.studyDuration
+            model.REST_DURATION = 60 * preferences.restingDuration
+            model.FOCUS_DURATION = 60 * preferences.studyDuration
         })
     }
 
@@ -67,7 +67,7 @@ private extension ContentView {
     @ViewBuilder
     var restView: some View {
         VStack {
-            Text("\(preferences.values.userName), get some well deserved rest!")
+            Text("\(preferences.userName), get some well deserved rest!")
                 .monospaced()
                 .padding()
                 .font(.title3)
@@ -79,7 +79,7 @@ private extension ContentView {
     @ViewBuilder
     var studyView: some View {
         VStack {
-            Text("You can do it, \(preferences.values.userName)!")
+            Text("You can do it, \(preferences.userName)!")
                 .monospaced()
                 .padding()
                 .font(.title3)

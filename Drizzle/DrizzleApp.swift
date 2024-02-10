@@ -14,14 +14,11 @@ struct DrizzleApp: App {
     @StateObject var viewModel = PomodoroViewModel()
     var body: some Scene {
         WindowGroup {
-            if preferences.values.showOnboarding {
+            if preferences.showOnboarding {
                 OnboardingView()
-                    .environmentObject(preferences)
                     .frame(minWidth: 750, maxWidth: 750, minHeight: 500, maxHeight: 500)
             } else {
                 ContentView()
-                    .environmentObject(preferences)
-                    .environmentObject(viewModel)
                     .frame(minWidth: 750, maxWidth: 750, minHeight: 500, maxHeight: 500)
                 .onAppear {
                     requestNotificationPermissions()
@@ -30,8 +27,11 @@ struct DrizzleApp: App {
             }
         }
         .defaultSize(width: 750, height: 500)
+        .environmentObject(preferences)
+        .environmentObject(viewModel)
         .windowResizability(.contentSize)
         .windowStyle(HiddenTitleBarWindowStyle())
+
         MenuBarExtra(content: {
             MenuBarView(model: viewModel)
             .background(IdleGradientBackground())
@@ -64,13 +64,13 @@ struct DrizzleApp: App {
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let todayString = dateFormatter.string(from: today)
         // Convert date strings to Date objects
-        if let date1 = dateFormatter.date(from: preferences.values.lastFocusedDate),
+        if let date1 = dateFormatter.date(from: preferences.lastFocusedDate),
            let date2 = dateFormatter.date(from: todayString) {
             let comparisonResult = date1.compare(date2)
             // In this case, the app was not launched yet today, and we adjust our AppStorage accordingly.
             if comparisonResult == .orderedAscending {
-                preferences.values.lastFocusedDate = todayString
-                preferences.values.lastFocusedMinutes = 0
+                preferences.lastFocusedDate = todayString
+                preferences.lastFocusedMinutes = 0
             }
         } else {
             print("Invalid date strings")
