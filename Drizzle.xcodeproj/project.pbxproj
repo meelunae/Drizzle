@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6208C0B22B7E233B00AABDB0 /* UserHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6208C0B12B7E233B00AABDB0 /* UserHistoryViewModel.swift */; };
+		6208C0B42B7E320000AABDB0 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6208C0B32B7E320000AABDB0 /* Helpers.swift */; };
 		6222CF6F2B5ED73C00457039 /* DrizzleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6222CF6E2B5ED73C00457039 /* DrizzleApp.swift */; };
 		6222CF712B5ED73C00457039 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6222CF702B5ED73C00457039 /* ContentView.swift */; };
 		6222CF732B5ED73D00457039 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6222CF722B5ED73D00457039 /* Assets.xcassets */; };
@@ -45,6 +47,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6208C0B12B7E233B00AABDB0 /* UserHistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHistoryViewModel.swift; sourceTree = "<group>"; };
+		6208C0B32B7E320000AABDB0 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		6222CF6B2B5ED73C00457039 /* Drizzle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Drizzle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6222CF6E2B5ED73C00457039 /* DrizzleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrizzleApp.swift; sourceTree = "<group>"; };
 		6222CF702B5ED73C00457039 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -119,6 +123,7 @@
 			children = (
 				6222CF6E2B5ED73C00457039 /* DrizzleApp.swift */,
 				6253B92A2B6C4E6C004A6352 /* Extensions.swift */,
+				6208C0B32B7E320000AABDB0 /* Helpers.swift */,
 				62574C2B2B61B5FC00DC4585 /* Views */,
 				62574C2C2B61B61400DC4585 /* ViewModels */,
 				6222CF722B5ED73D00457039 /* Assets.xcassets */,
@@ -174,6 +179,7 @@
 				62A3AAC82B79AFBE00DB1D40 /* NavigationStateManager.swift */,
 				622630E42B704F0800102628 /* AppPreferences.swift */,
 				6222CF992B5ED91200457039 /* PomodoroViewModel.swift */,
+				6208C0B12B7E233B00AABDB0 /* UserHistoryViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -344,6 +350,8 @@
 				6222CF9A2B5ED91200457039 /* PomodoroViewModel.swift in Sources */,
 				622630E52B704F0800102628 /* AppPreferences.swift in Sources */,
 				62A3AAC92B79AFBE00DB1D40 /* NavigationStateManager.swift in Sources */,
+				6208C0B42B7E320000AABDB0 /* Helpers.swift in Sources */,
+				6208C0B22B7E233B00AABDB0 /* UserHistoryViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

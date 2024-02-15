@@ -11,15 +11,22 @@ final class AppPreferences: ObservableObject {
     @AppStorage("studyDuration") var studyDuration: Int = 5
     @AppStorage("restingDuration") var restingDuration: Int = 5
     @AppStorage("userName") var userName: String = ""
-    @AppStorage("lastSeenDate") var lastFocusedDate: String = "1970-01-01"
-    @AppStorage("lastSeenFocusTime") var lastFocusedMinutes: Int = 0
+    @AppStorage("focusTimeToday") var focusMinsToday: Int = 0
+    @AppStorage("restTimeToday") var restMinsToday: Int = 0
+    @AppStorage("sessionsToday") var nOfSessionsToday: Int = 0
 
-    func reset() {
+    func resetAllSettings() {
         self.showOnboarding = true
         self.studyDuration = 5
         self.restingDuration = 5
         self.userName = ""
-        self.lastFocusedDate = "1970-01-01"
-        self.lastFocusedMinutes = 0
+        self.focusMinsToday = 0
+        self.restMinsToday = 0
+    }
+
+    func refreshDailyValues() {
+        self.focusMinsToday = 0
+        self.restMinsToday = 0
+        self.nOfSessionsToday = 0
     }
 }

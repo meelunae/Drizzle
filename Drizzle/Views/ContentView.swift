@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var model: PomodoroViewModel
-    @EnvironmentObject var preferences: AppPreferences
+    @EnvironmentObject var userHistory: HistoryViewModel
     @SceneStorage("navigationState") var navigationStateData: Data?
     @StateObject var navigationStateManager = NavigationStateManager()
 

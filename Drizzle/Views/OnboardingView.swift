@@ -11,7 +11,7 @@ struct OnboardingView: View {
     @State private var showLogo = true
     var body: some View {
         if showLogo {
-                OnboardingLogoView()
+            OnboardingLogoView()
                 .background(IdleGradientBackground())
             .onAppear {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {

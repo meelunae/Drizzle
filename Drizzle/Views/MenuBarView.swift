@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct MenuBarView: View {
-    @ObservedObject var model: PomodoroViewModel
-    @AppStorage("userName") private var userName: String = ""
+    @EnvironmentObject var model: PomodoroViewModel
+    @EnvironmentObject var prefs: AppPreferences
     var body: some View {
         VStack {
             Divider()
                 .opacity(0)
-            Text("\(greeting), \(userName)!\nYou have focused for \(model.lastFocusedMinutes) minutes today.")
+            Text("\(greeting), \(prefs.userName)!\nYou have focused for \(prefs.focusMinsToday) minutes today.")
                 .monospaced()
                 .scaledToFill()
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -33,10 +33,10 @@ struct MenuBarView: View {
                 .buttonStyle(.accessoryBar)
 
             case.studySessionActive:
-                GaugeProgressView(title: "Time remaining for the study sprint", model: model)
+                GaugeProgressView(title: "Time remaining for the study sprint")
                     .frame(maxWidth: .infinity, alignment: .leading)
             case .restSessionActive:
-                GaugeProgressView(title: "Time remaining for the rest sprint", model: model)
+                GaugeProgressView(title: "Time remaining for the rest sprint")
             }
             Divider()
             Button(action: {
@@ -51,15 +51,6 @@ struct MenuBarView: View {
             Divider()
                 .opacity(0)
         }
-    }
-    var stopSessionButton: some View {
-        Button(action: {
-            model.pomodoroState = .stopped
-        }, label: {
-            Text("Stop this session")
-        })
-        .padding([.bottom])
-        .keyboardShortcut("p")
     }
     var greeting: String {
         let hour = Calendar.current.component(.hour, from: Date())
@@ -76,6 +67,19 @@ struct MenuBarView: View {
     }
 }
 
+private extension MenuBarView {
+    @ViewBuilder
+    var stopSessionButton: some View {
+        Button(action: {
+            model.pomodoroState = .stopped
+        }, label: {
+            Text("Stop this session")
+        })
+        .padding([.bottom])
+        .keyboardShortcut("p")
+    }
+}
 #Preview {
-    MenuBarView(model: PomodoroViewModel())
+    MenuBarView()
+        .environmentObject(PomodoroViewModel())
 }

@@ -30,7 +30,7 @@ struct CircularProgressView: View {
 
 struct GaugeProgressView: View {
     @State var title: String
-    @ObservedObject var model: PomodoroViewModel
+    @EnvironmentObject var model: PomodoroViewModel
     @State var buttonHovered: Bool = false
     var body: some View {
         VStack {

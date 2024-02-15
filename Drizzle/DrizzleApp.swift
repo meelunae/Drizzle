@@ -6,12 +6,12 @@
 //
 
 import SwiftUI
-import UserNotifications
 
 @main
 struct DrizzleApp: App {
     @StateObject var preferences = AppPreferences()
-    @StateObject var viewModel = PomodoroViewModel()
+    @StateObject var pomodoroInstance = PomodoroViewModel()
+    @StateObject var userHistory = HistoryViewModel()
     var body: some Scene {
         WindowGroup {
             if preferences.showOnboarding {
@@ -21,69 +21,50 @@ struct DrizzleApp: App {
                 ContentView()
                     .frame(minWidth: 750, maxWidth: 750, minHeight: 500, maxHeight: 500)
                 .onAppear {
+                    userHistory.appPreferences = preferences
                     requestNotificationPermissions()
-                    setLastSeenActivity()
+                    userHistory.syncHistoryData()
+                }
+                .onReceive(NotificationCenter.default.publisher(for: NSApplication.willTerminateNotification)) { _ in
+                    print("Syncing history data before closing")
+                    userHistory.syncHistoryData()
+                    print(userHistory.history[0])
+                    userHistory.saveData(data: userHistory.history)
                 }
             }
         }
         .defaultSize(width: 750, height: 500)
+        .environmentObject(userHistory)
         .environmentObject(preferences)
-        .environmentObject(viewModel)
+        .environmentObject(pomodoroInstance)
         .windowResizability(.contentSize)
         .windowStyle(HiddenTitleBarWindowStyle())
 
         MenuBarExtra(content: {
-            MenuBarView(model: viewModel)
+            MenuBarView()
             .background(IdleGradientBackground())
-                .frame(minWidth: 350, maxWidth: 350)
+            .frame(minWidth: 350, maxWidth: 350)
+            .environmentObject(preferences)
+            .environmentObject(pomodoroInstance)
         }, label: {
-            switch viewModel.pomodoroState {
+            switch pomodoroInstance.pomodoroState {
             case .stopped:
                 Image("CloudIcon")
                 .padding()
             case .studySessionActive:
                 HStack {
                     Image("RainIcon")
-                    Text(viewModel.timeRemaining.parsedTimestamp)
+                    Text(pomodoroInstance.timeRemaining.parsedTimestamp)
                 }
                 .padding()
             case .restSessionActive:
                 HStack {
                     Image("SunIcon")
-                    Text(viewModel.timeRemaining.parsedTimestamp)
+                    Text(pomodoroInstance.timeRemaining.parsedTimestamp)
                 }
                 .padding()
             }
         })
         .menuBarExtraStyle(.window)
-    }
-
-    func setLastSeenActivity() {
-        let today = Date()
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        let todayString = dateFormatter.string(from: today)
-        // Convert date strings to Date objects
-        if let date1 = dateFormatter.date(from: preferences.lastFocusedDate),
-           let date2 = dateFormatter.date(from: todayString) {
-            let comparisonResult = date1.compare(date2)
-            // In this case, the app was not launched yet today, and we adjust our AppStorage accordingly.
-            if comparisonResult == .orderedAscending {
-                preferences.lastFocusedDate = todayString
-                preferences.lastFocusedMinutes = 0
-            }
-        } else {
-            print("Invalid date strings")
-        }
-    }
-
-    func requestNotificationPermissions() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
-            if granted {
-                print("Notification permissions granted")
-            } else if let error = error {
-                print("Error requesting notification permissions: \(error.localizedDescription)")
-            }
-        }
     }
 }

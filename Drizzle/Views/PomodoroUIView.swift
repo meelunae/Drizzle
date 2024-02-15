@@ -36,12 +36,13 @@ private extension PomodoroUIView {
             Button(action: {
                 if let bundleID = Bundle.main.bundleIdentifier {
                     UserDefaults.standard.removePersistentDomain(forName: bundleID)
-                    preferences.reset()
+                    preferences.resetAllSettings()
                 }
             }, label: {Text("Reset")})
         }
         .padding()
         .onAppear(perform: {
+            model.appPreferences = preferences
             model.REST_DURATION = 60 * preferences.restingDuration
             model.FOCUS_DURATION = 60 * preferences.studyDuration
         })

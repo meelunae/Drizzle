@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import UserNotifications
 
 final class PomodoroViewModel: ObservableObject {
     enum PomodoroState {
@@ -14,7 +13,8 @@ final class PomodoroViewModel: ObservableObject {
         case restSessionActive
         case stopped
     }
-    @AppStorage("lastSeenFocusTime") var lastFocusedMinutes: Int = 0
+
+    var appPreferences: AppPreferences?
     @Published var timeRemaining = 0
     @Published var progress: Float = 0.0
     @Published var timerViewColor: Color = .orange // default is study
@@ -41,6 +41,7 @@ final class PomodoroViewModel: ObservableObject {
     private var pomodoro = Timer()
     var FOCUS_DURATION: Int = 0
     var REST_DURATION: Int = 0
+
     private func startTimer() {
         DispatchQueue.global(qos: .background).async { [weak self] in
             guard let self = self else { return }
@@ -48,57 +49,50 @@ final class PomodoroViewModel: ObservableObject {
             // Schedule the timer on the current run loop of the background thread
             pomodoro = Timer(timeInterval: 1.0, repeats: true) { [weak self] _ in
                 guard let self = self else { return }
-
                 DispatchQueue.main.async {
                     self.timeRemaining -= 1
-                    switch self.pomodoroState {
-                    case .studySessionActive:
-                        self.progress = Float(self.timeRemaining) / Float(self.FOCUS_DURATION)
-                        if self.timeRemaining < 0 {
-                            // dividing total number of seconds by 60 to avoid declaring variables for the minutes count
-                            self.lastFocusedMinutes += self.FOCUS_DURATION / 60
-                            self.pomodoro.invalidate()
-                            self.sendLocalNotification(
-                                title: "You did it!",
-                                body: "Your 25 minutes study sprint is over. Enjoy a well-deserved 5 minutes break!"
-                            )
-                            self.pomodoroState = .restSessionActive
-                        }
-                    case .restSessionActive:
-                        self.progress = Float(self.timeRemaining) / Float(self.REST_DURATION)
-                        if self.timeRemaining < 0 {
-                            self.sendLocalNotification(
-                                title: "Let's get back to work!",
-                                body: "Your 5 minutes resting sprint is over.")
-                            self.pomodoroState = .stopped
-                        }
-                    case .stopped:
-                        // should never reach here
-                        break
-                    }
+                    self.processSessionStatus()
                 }
-                }
-
+            }
             RunLoop.current.add(pomodoro, forMode: .default)
             RunLoop.current.run()
         }
     }
 
-    func sendLocalNotification(title: String, body: String) {
-        let content = UNMutableNotificationContent()
-        content.title = title
-        content.body = body
-        content.sound = UNNotificationSound.default
-        // Time Sensitive interruption level so that the notification of the timers ending shows up on every focus.
-        content.interruptionLevel = .timeSensitive
-
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-        let request = UNNotificationRequest(identifier: "successNotification", content: content, trigger: trigger)
-
-        UNUserNotificationCenter.current().add(request) { error in
-            if let error = error {
-                print("Error adding notification request: \(error.localizedDescription)")
+    func processSessionStatus() {
+        switch self.pomodoroState {
+        case .studySessionActive:
+            self.progress = Float(self.timeRemaining) / Float(self.FOCUS_DURATION)
+            if self.timeRemaining < 0 {
+                if let appPreferences = self.appPreferences {
+                    appPreferences.focusMinsToday += appPreferences.studyDuration
+                    self.pomodoro.invalidate()
+                    sendLocalNotification(
+                        title: "You did it!",
+                        body: """
+                        Your \(appPreferences.studyDuration) minute\(appPreferences.studyDuration == 1 ? "" : "s") study sprint is over.
+                        Enjoy a well-deserved \(appPreferences.restingDuration) minute\(appPreferences.restingDuration == 1 ? "" : "s") break!
+                        """)
+                    self.pomodoroState = .restSessionActive
+                }
             }
+        case .restSessionActive:
+            self.progress = Float(self.timeRemaining) / Float(self.REST_DURATION)
+            if self.timeRemaining < 0 {
+                if let appPreferences = self.appPreferences {
+                    appPreferences.restMinsToday += appPreferences.restingDuration
+                    sendLocalNotification(
+                        title: "Let's get back to work!",
+                        body: """
+                        "Your \(appPreferences.restingDuration)
+                        \(appPreferences.restingDuration == 1 ? "minute" : "minutes") resting sprint is over.
+                        """)
+                    self.pomodoroState = .stopped
+                }
+            }
+        case .stopped:
+            // should never reach here
+            break
         }
     }
 }
